@@ -28,6 +28,10 @@ jobs:
           export JAVA_HOME=$(/usr/libexec/java_home -v ${{ matrix.version }})
           export BUILD_IOS=1
           export TARGET_VERSION=${{ matrix.version }}
+          # Fix for fdopen() macro conflict in zlib when cross-compiling for iOS
+          export CFLAGS="-Ufdopen"
+          export CPPFLAGS="-Ufdopen"
+      
           bash "1_ci_build_arch_aarch64.sh"
 
       #    - name: Upload JDK build output
